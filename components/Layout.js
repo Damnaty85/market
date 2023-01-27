@@ -171,7 +171,7 @@ function Layout({title, description, children}) {
     return (
         <ThemeProvider theme={mainTheme}>
             <Head>
-                <title>{title ? `${title} - Винный магазин` : `Винный магазин`}</title>
+                <title>{title ? `${title} - Особый случай` : `Особый случай`}</title>
                 {description && <meta name="description" content={description}></meta>}
             </Head>
             <AppBar position='static'>
@@ -181,7 +181,7 @@ function Layout({title, description, children}) {
                             <MenuIcon sx={{fill: 'white'}}></MenuIcon>
                         </IconButton>
                         <Link href='/'>
-                            <Typography sx={{fontSize: '24px'}}>Винный магазин</Typography>
+                            <Typography sx={{fontSize: '24px', fontWeight: '700'}}>Особый случай</Typography>
                         </Link>
                     </Box>
                     <Drawer anchor='top' open={sidebarVisible} onClick={sidebarCloseHandler}>
