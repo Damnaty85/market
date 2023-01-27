@@ -11,7 +11,6 @@ import {
     Typography,
     Card,
     Button,
-    ListItemText,
     CardContent,
     CardActions,
  } from '@mui/material';
@@ -19,6 +18,7 @@ import {
 import { getError } from '../../utils/error';
 import { Store } from '../../utils/Store';
 import Layout from '../../components/Layout';
+import SidePanelAdmin from '../../components/SidePanelAdmin';
 
 function reducer(state, action) {
     switch (action.type) {
@@ -67,25 +67,7 @@ function AdminDashboard() {
             <Layout title="Панель администратора">
                 <Grid container spacing={1}>
                     <Grid item md={3} xs={12}>
-                        <Card >
-                            <List>
-                                <Link href="/admin/dashboard">
-                                    <ListItem selected button component="a">
-                                        <ListItemText primary="Панель администратора"></ListItemText>
-                                    </ListItem>
-                                </Link>
-                                <Link href="/admin/orders">
-                                    <ListItem button component="a">
-                                        <ListItemText primary="Заказы"></ListItemText>
-                                    </ListItem>
-                                </Link>
-                                <Link href="/admin/products" passHref>
-                                    <ListItem button component="a">
-                                        <ListItemText primary="Товары"></ListItemText>
-                                    </ListItem>
-                                </Link>
-                            </List>
-                        </Card>
+                        <SidePanelAdmin />
                     </Grid>
                     <Grid item md={9} xs={12}>
                         <Card>

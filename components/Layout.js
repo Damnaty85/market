@@ -1,4 +1,4 @@
-import { AppBar, Box, Container, Toolbar, Typography, Badge, IconButton, Drawer, List, ListItem, Divider, ListItemText, TextField, Menu, MenuItem, Avatar, ThemeProvider, createTheme } from '@mui/material'
+import { AppBar, Box, Container, Toolbar, Typography, Badge, IconButton, Drawer, List, ListItem, Divider, ListItemText, Menu, MenuItem, Avatar, ThemeProvider, createTheme } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
 import CancelIcon from '@mui/icons-material/Cancel';
 import SearchIcon from '@mui/icons-material/Search';
@@ -13,7 +13,40 @@ import axios from 'axios';
 import { getError } from '../utils/error';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import { brown } from '@mui/material/colors';
+import dynamic from 'next/dynamic';
+import { styled, alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+
+const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: 'auto',
+    },
+}));
+  
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    transition: theme.transitions.create('width'),
+    width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: '12ch',
+            '&:focus': {
+                width: '20ch',
+            },
+        },
+    },
+}));
+  
 
 const navLinks = [
     {
@@ -65,7 +98,7 @@ function stringAvatar(name) {
     };
 }
 
-export default function Layout({title, description, children}) {
+function Layout({title, description, children}) {
     const router = useRouter();
     const { state, dispatch } = useContext(Store);
     const { cart, userInfo } = state;
@@ -130,7 +163,7 @@ export default function Layout({title, description, children}) {
     const mainTheme = createTheme({
         palette: {
           primary: {
-            main: brown[600],
+            main: '#946d46',
           },
         },
     });
@@ -148,7 +181,7 @@ export default function Layout({title, description, children}) {
                             <MenuIcon sx={{fill: 'white'}}></MenuIcon>
                         </IconButton>
                         <Link href='/'>
-                            <Typography>Винный магазин</Typography>
+                            <Typography sx={{fontSize: '24px'}}>Винный магазин</Typography>
                         </Link>
                     </Box>
                     <Drawer anchor='top' open={sidebarVisible} onClick={sidebarCloseHandler}>
@@ -181,11 +214,17 @@ export default function Layout({title, description, children}) {
                         </List>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <form onSubmit={submitHandler} style={{ display: 'flex' }}>
-                            <TextField name="query" label="Поиск товаров" onChange={queryChangeHandler} size="small"/>
+                        <form onSubmit={submitHandler}>
+                            <Search >
                             <IconButton type="submit" aria-label="search" >
                                 <SearchIcon sx={{fill: 'white'}}/>
                             </IconButton>
+                                <StyledInputBase
+                                    placeholder="Поиск…"
+                                    inputProps={{ 'aria-label': 'search' }}
+                                    onChange={queryChangeHandler}
+                                />
+                            </Search>
                         </form>
                         <Link href="/cart">
                             <IconButton sx={{color: 'white'}}>
@@ -240,3 +279,5 @@ export default function Layout({title, description, children}) {
         </ThemeProvider>
     )
 }
+
+export default dynamic(() => Promise.resolve(Layout), { ssr: false });

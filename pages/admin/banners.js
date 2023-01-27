@@ -29,7 +29,7 @@ function reducer(state, action) {
         case 'FETCH_REQUEST':
             return { ...state, loading: true, error: '' };
         case 'FETCH_SUCCESS':
-            return { ...state, loading: false, products: action.payload, error: '' };
+            return { ...state, loading: false, banners: action.payload, error: '' };
         case 'FETCH_FAIL':
             return { ...state, loading: false, error: action.payload };
         case 'CREATE_REQUEST':
@@ -57,11 +57,11 @@ function AdminDashboard() {
     const { userInfo } = state;
 
     const [
-            { loading, error, products, loadingCreate, successDelete, loadingDelete },
+            { loading, error, banners, loadingCreate, successDelete, loadingDelete },
             dispatch,
         ] = useReducer(reducer, {
         loading: true,
-        products: [],
+        banners: [],
         error: '',
     });
 
@@ -72,7 +72,7 @@ function AdminDashboard() {
         const fetchData = async () => {
             try {
                 dispatch({ type: 'FETCH_REQUEST' });
-                const { data } = await axios.get(`/api/admin/products`, {
+                const { data } = await axios.get(`/api/admin/banners`, {
                     headers: { authorization: `Bearer ${userInfo.token}` },
                 });
                 dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -90,21 +90,21 @@ function AdminDashboard() {
     const { enqueueSnackbar } = useSnackbar();
    
     const createHandler = async () => {
-        if (!window.confirm('Создать новый товар?')) {
+        if (!window.confirm('Создать новый баннер?')) {
             return;
         }
         
         try {
             dispatch({ type: 'CREATE_REQUEST' });
             const { data } = await axios.post(
-                `/api/admin/products`,
+                `/api/admin/banners`,
                 {}, {
                     headers: { authorization: `Bearer ${userInfo.token}` },
                 }
             );
             dispatch({ type: 'CREATE_SUCCESS' });
-            enqueueSnackbar('Товар успешно создан', { variant: 'success' });
-            router.push(`/admin/product/${data.product._id}`);
+            enqueueSnackbar('Баннер успешно создан', { variant: 'success' });
+            router.push(`/admin/banner/${data.banner._id}`);
         } catch (err) {
             dispatch({ type: 'CREATE_FAIL' });
             enqueueSnackbar(getError(err), { variant: 'error' });
@@ -112,17 +112,17 @@ function AdminDashboard() {
     };
    
      const deleteHandler = async (productId) => {
-        if (!window.confirm('Вы уверены что хотите удалить товар?')) {
+        if (!window.confirm('Вы уверены что хотите удалить баннер?')) {
             return;
         }
      
         try {
             dispatch({ type: 'DELETE_REQUEST' });
-            await axios.delete(`/api/admin/products/${productId}`, {
+            await axios.delete(`/api/admin/banners/${productId}`, {
                 headers: { authorization: `Bearer ${userInfo.token}` },
             });
             dispatch({ type: 'DELETE_SUCCESS' });
-            enqueueSnackbar('Товар удален', { variant: 'success' });
+            enqueueSnackbar('Баннер удален', { variant: 'success' });
         } catch (err) {
             dispatch({ type: 'DELETE_FAIL' });
             enqueueSnackbar(getError(err), { variant: 'error' });
@@ -142,7 +142,7 @@ function AdminDashboard() {
                             <Grid container alignItems="center">
                                 <Grid item xs={6}>
                                     <Typography variant="h6">
-                                        Товары
+                                        Баннеры
                                     </Typography>
                                     {loadingDelete && <CircularProgress />}
                                 </Grid>
@@ -152,7 +152,7 @@ function AdminDashboard() {
                                         color="success"
                                         variant="contained"
                                     >
-                                        Добавить новый товар                                    
+                                        Добавить новый баннер                                  
                                     </Button>
                                     {loadingCreate && <CircularProgress />}
                                 </Grid>
@@ -169,30 +169,26 @@ function AdminDashboard() {
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell>ID</TableCell>
-                                                    <TableCell>ИМЯ</TableCell>
-                                                    <TableCell>ЦЕНА</TableCell>
-                                                    <TableCell>АКЦИЯ</TableCell>
-                                                    <TableCell>КАТЕГОРИЯ</TableCell>
-                                                    <TableCell>БРЭНД</TableCell>
+                                                    <TableCell>НАЗВАНИЕ</TableCell>
+                                                    <TableCell>ОПИСАНИЕ</TableCell>
+                                                    <TableCell>ССЫЛКА</TableCell>
                                                     <TableCell sx={{width: '255px'}}></TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                                {products.map((product) => (
-                                                    <TableRow key={product._id}>
+                                                {banners.map((banner) => (
+                                                    <TableRow key={banner._id}>
                                                         <TableCell>
-                                                            {product._id.substring(20, 24)}
+                                                            {banner._id.substring(20, 24)}
                                                         </TableCell>
-                                                        <TableCell>{product.name}</TableCell>
-                                                        <TableCell>{product.price} руб.</TableCell>
-                                                        <TableCell>{product.new_price} руб.</TableCell>
-                                                        <TableCell>{product.category}</TableCell>
-                                                        <TableCell>{product.brand}</TableCell>
+                                                        <TableCell>{banner.title}</TableCell>
+                                                        <TableCell>{banner.description}</TableCell>
+                                                        <TableCell>{banner.link}</TableCell>
                                                         <TableCell sx={{width: '255px'}}>
-                                                            <Link href={`/admin/product/${product._id}`}>
+                                                            <Link href={`/admin/banner/${banner._id}`}>
                                                                 <Button size="small" variant="contained">Редактировать</Button>
                                                             </Link>{' '} 
-                                                            <Button size="small" variant="outlined" color="error" onClick={() => deleteHandler(product._id)}>Удалить</Button>
+                                                            <Button size="small" variant="outlined" color="error" onClick={() => deleteHandler(banner._id)}>Удалить</Button>
                                                         </TableCell>
                                                     </TableRow>
                                                 ))}

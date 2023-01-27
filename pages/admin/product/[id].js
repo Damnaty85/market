@@ -1,7 +1,6 @@
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import React, { useEffect, useContext, useReducer } from 'react';
 import {
     Grid,
@@ -10,7 +9,6 @@ import {
     Typography,
     Card,
     Button,
-    ListItemText,
     TextField,
     CircularProgress,
     FormControl,
@@ -23,6 +21,7 @@ import { Store } from '../../../utils/Store';
 import Layout from '../../../components/Layout';
 import { Controller, useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
+import SidePanelAdmin from '../../../components/SidePanelAdmin';
 
 function reducer(state, action) {
     switch (action.type) {
@@ -85,6 +84,7 @@ function ProductEdit({ params }) {
                 setValue('name', data.name);
                 setValue('slug', data.slug);
                 setValue('price', data.price);
+                setValue('new_price', data.new_price);
                 setValue('image', data.image);
                 setValue('category', data.category);
                 setValue('sort', data.sort);
@@ -141,6 +141,7 @@ function ProductEdit({ params }) {
         shugar,
         description,
         price,
+        new_price,
         image,
         brand,
         countInStock,
@@ -162,6 +163,7 @@ function ProductEdit({ params }) {
                     shugar,
                     description,
                     price,
+                    new_price,
                     image,
                     brand,
                     countInStock,
@@ -178,28 +180,10 @@ function ProductEdit({ params }) {
         }
     };
    return (
-        <Layout title={`Edit Product ${productId}`}>
+        <Layout title={`Редактирование продукта ${productId}`}>
             <Grid container spacing={1}>
                 <Grid item md={3} xs={12}>
-                    <Card>
-                        <List>
-                            <Link href="/admin/dashboard" passHref>
-                                <ListItem button component="a">
-                                    <ListItemText primary="Панель администратора"></ListItemText>
-                                </ListItem>
-                            </Link>
-                            <Link href="/admin/orders" passHref>
-                                <ListItem button component="a">
-                                    <ListItemText primary="Заказы"></ListItemText>
-                                </ListItem>
-                            </Link>
-                            <Link href="/admin/products" passHref>
-                                <ListItem selected button component="a">
-                                    <ListItemText primary="Товары"></ListItemText>
-                                </ListItem>
-                            </Link>
-                        </List>
-                    </Card>
+                    <SidePanelAdmin />
                 </Grid>
                 <Grid item md={9} xs={12}>
                     <Card>
@@ -276,6 +260,27 @@ function ProductEdit({ params }) {
                                                         label="Цена"
                                                         error={Boolean(errors.price)}
                                                         helperText={errors.price ? 'Цена обязательна' : ''}
+                                                        {...field}
+                                                    ></TextField>
+                                                )}
+                                            ></Controller>
+                                        </ListItem>
+                                        <ListItem>
+                                            <Controller
+                                                name="new_price"
+                                                control={control}
+                                                defaultValue=""
+                                                rules={{
+                                                    required: false,
+                                                }}
+                                                render={({ field }) => (
+                                                    <TextField
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        id="new_price"
+                                                        label="Акционная цена"
+                                                        error={Boolean(errors.new_price)}
+                                                        helperText={errors.new_price ? 'Акционная цена обязательна' : ''}
                                                         {...field}
                                                     ></TextField>
                                                 )}

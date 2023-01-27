@@ -60,7 +60,41 @@ export default function ProductScreen(props) {
                                 <ListItem>
                                     <Grid container>
                                         <Grid item xs={6}><Typography variant="h6">Цена</Typography></Grid>
-                                        <Grid item xs={6}><Typography variant="h6" style={{textAlign: 'right'}}>{product.price} руб.</Typography></Grid>
+
+                                        <Grid item xs={6}>
+                                        {
+                                            product.new_price > 1 ?
+                                                <div>
+                                                    <Typography variant="h6"
+                                                        sx={{
+                                                            color: 'grey',
+                                                            textDecoration: 'line-through',
+                                                            marginBottom: '-10px'
+                                                        }}
+                                                    >
+                                                        {product.price} руб.
+                                                    </Typography>
+                                                    <Typography variant="h6" sx={{display: 'flex', fontWeight: '600'}}>
+                                                        {product.new_price} руб.
+                                                        <Typography
+                                                            variant="span"
+                                                            sx={{
+                                                                display: 'flex',
+                                                                marginLeft: '10px', 
+                                                                alignItems: 'center', 
+                                                                backgroundColor: '#d32f2f', 
+                                                                borderRadius: '30px',
+                                                                color: 'white',
+                                                                fontSize: '12px',
+                                                                lineHeight: '12px',
+                                                                height: '20px',
+                                                                padding: '0 10px'
+                                                        }}>{Math.ceil(100 - (product.price/product.new_price) * 100)}%</Typography>
+                                                    </Typography>
+                                                </div>
+                                                : <Typography variant="h6" sx={{fontWeight: '600'}}>{product.price} руб.</Typography>
+                                        }
+                                        </Grid>
                                     </Grid>
                                 </ListItem>
                                 {/* <ListItem>

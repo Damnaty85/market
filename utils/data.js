@@ -14,6 +14,24 @@ const data = {
 			isAdmin: false,
 		},
 	],
+	banners: [
+		{
+			image: '/images/banner1.jpeg',
+			title: 'Новое поступление игристого вина',
+			description: 'Вино рубинового цвета. В аромате тона ягод, черных фруктов, мака, сдобы. Во вкусе вино мягкое, бархатистое, с длительным фруктовым послевкусием.',
+			link: '/product/f_style_w',
+			button_text: 'Смотреть',
+			link_all_banner: false,
+		},
+		{
+			image: '/images/banner2.jpg',
+			title: 'В нашем магазине вы найдете вино на любой вкус',
+			description: '',
+			link: '/search?category=вино',
+			button_text: 'Смотреть',
+			link_all_banner: true,
+		}
+	],
     products: [
         {
 			name: "Fanagoria, Selfie White Semi-Sweet",

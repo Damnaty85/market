@@ -47,6 +47,7 @@ function CartScreen() {
                                         <TableCell>Товар</TableCell>
                                         <TableCell align="right">Количество</TableCell>
                                         <TableCell align="right">Цена</TableCell>
+                                        <TableCell align="right">Цена без акции</TableCell>
                                         <TableCell align="right"></TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -68,6 +69,7 @@ function CartScreen() {
                                                     ))}
                                                 </Select>
                                             </TableCell>
+                                            <TableCell align="right">{item.new_price ? item.new_price : item.price} руб.</TableCell>
                                             <TableCell align="right">{item.price} руб.</TableCell>
                                             <TableCell align="right">
                                                 <Button variant="contained" color="secondary" onClick={() => removeItemHandler(item)}>x</Button>
@@ -83,7 +85,7 @@ function CartScreen() {
                             <List>
                                 <ListItem>
                                     <Typography>
-                                        Итого ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '} items) : {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)} руб.
+                                        Итого ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '} items) : {cartItems.reduce((a, c) => a + c.quantity * (c.new_price ? c.new_price : c.price), 0)} руб.
                                     </Typography>
                                 </ListItem>
                                 <ListItem>

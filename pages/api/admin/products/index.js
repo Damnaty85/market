@@ -21,6 +21,7 @@ handler.post(async (req, res) => {
         category: 'Название категории',
         image: '/images/noimage.svg',
         price: 0,
+        new_price: 0,
         brand: 'Название брэнда',
         rating: 0,
         numReviews: 0,

@@ -31,7 +31,7 @@ export default function ProductsScreen(props) {
             <Typography variant="h4">Товары</Typography>
             <Grid container spacing={3} sx={{marginTop: '20px'}}>
                 {products.map((product) => (
-                    <Grid item md={3} key={product.name}>
+                    <Grid item md={3} key={product._id}>
                         <ProductItem product={product} addToCartHandler={addToCartHandler}/>
                     </Grid>
                 ))}
