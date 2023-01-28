@@ -64,7 +64,8 @@ function AdminDashboard() {
     }, []);
    
     return (
-            <Layout title="Панель администратора">
+        <Layout title="Панель администратора">
+            <div className='center'>
                 <Grid container spacing={1}>
                     <Grid item md={3} xs={12}>
                         <SidePanelAdmin />
@@ -158,6 +159,7 @@ function AdminDashboard() {
                         </Card>
                     </Grid>
                 </Grid>
+            </div>        
         </Layout>
    );
 }

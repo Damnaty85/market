@@ -1,6 +1,4 @@
-import { AppBar, Box, Container, Toolbar, Typography, Badge, IconButton, Drawer, List, ListItem, Divider, ListItemText, Menu, MenuItem, Avatar, ThemeProvider, createTheme } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { AppBar, Box, Toolbar, Typography, Badge, IconButton, List, ListItem, Menu, MenuItem, Avatar, ThemeProvider, createTheme } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -46,28 +44,32 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
-  
 
 const navLinks = [
     {
         name: "Товары",
         path: "/products",
+        parent: true
     },
     {
-        name: "Бакалея",
+        name: "Гастрономия",
         path: "/grocery",
+        parent: false
     },
     {
-        name: "Услуги",
+        name: "Подарки",
         path: "/services",
+        parent: false
     },
     {
         name: "Акции",
         path: "/action",
+        parent: false
     },
     {
         name: "Контакты",
         path: "/contacts",
+        parent: false
     },
 ];
 
@@ -102,16 +104,8 @@ function Layout({title, description, children}) {
     const router = useRouter();
     const { state, dispatch } = useContext(Store);
     const { cart, userInfo } = state;
-    
-    const [sidebarVisible, setSidebarVisible] = useState(false);
-
-    const sidebarOpenHandler = () => {
-        setSidebarVisible(true)
-    }
-
-    const sidebarCloseHandler = () => {
-        setSidebarVisible(false)
-    }
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorElSection, setAnchorElSection] = useState(null);
 
     const [categories, setCategories] = useState([]);
     const { enqueueSnackbar } = useSnackbar();
@@ -138,20 +132,29 @@ function Layout({title, description, children}) {
         fetchCategories();
     }, []);
 
-    const [anchorEl, setAnchorEl] = useState(null);
+    const handleClickSubsection = (event) => {
+        setAnchorElSection(event.currentTarget);
+    };
+    
+      const handleCloseSubsection = () => {
+        setAnchorElSection(null);
+    };
 
     const loginClickHandler = (e) => {
         setAnchorEl(e.currentTarget);
     };
-    const loginMenuCloseHandler = (e, redirect) => {
+
+    const menuCloseHandler = (e, redirect) => {
         setAnchorEl(null);
         if (redirect) {
             router.push(redirect)
         }
     };
-    const handleClose = () => {
+
+    const mainMenuCloseHandler = () => {
         setAnchorEl(null);
     };
+    
     const logoutClickHandler = () => {
         setAnchorEl(null);
         dispatch({ type: 'USER_LOGOUT' });
@@ -163,7 +166,7 @@ function Layout({title, description, children}) {
     const mainTheme = createTheme({
         palette: {
           primary: {
-            main: '#946d46',
+            main: '#D7B588',
           },
         },
     });
@@ -171,45 +174,61 @@ function Layout({title, description, children}) {
     return (
         <ThemeProvider theme={mainTheme}>
             <Head>
-                <title>{title ? `${title} - Особый случай` : `Особый случай`}</title>
+                <title>{title ? `${title} - магазина Особый случай` : `Особый случай`}</title>
                 {description && <meta name="description" content={description}></meta>}
             </Head>
             <AppBar position='static'>
                 <Toolbar sx={{ justifyContent: 'space-between' }} >
                     <Box display={'flex'} alignItems={'center'}>
-                        <IconButton edge="start" aria-label='open drawer' onClick={sidebarOpenHandler}>
-                            <MenuIcon sx={{fill: 'white'}}></MenuIcon>
-                        </IconButton>
                         <Link href='/'>
-                            <Typography sx={{fontSize: '24px', fontWeight: '700'}}>Особый случай</Typography>
+                            <Typography sx={{fontSize: '22px', fontWeight: '700'}}>Особый случай</Typography>
                         </Link>
                     </Box>
-                    <Drawer anchor='top' open={sidebarVisible} onClick={sidebarCloseHandler}>
-                        <List>
-                            <ListItem>
-                                <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-                                    <Typography>Категории</Typography>
-                                    <IconButton aria-label='close' onClick={sidebarCloseHandler}>
-                                        <CancelIcon></CancelIcon>
-                                    </IconButton>
-                                </Box>
-                            </ListItem>
-                            <Divider light/>
-                            {categories.map((category) => (
-                                <Link key={category} href={`/search?category=${category}`}>
-                                    <ListItem button component="a" onClick={sidebarCloseHandler}>
-                                        <ListItemText primary={category}></ListItemText>
-                                    </ListItem>
-                                </Link>
-                            ))}
-                        </List>
-                    </Drawer>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <List sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             {navLinks.map((item) => (
-                                <ListItem key={item.name}>
+                                item.parent ? 
+                                    <>
+                                        <ListItem 
+                                            key={item.name} 
+                                            onMouseOver={handleClickSubsection}
+                                            aria-controls="basic-menu" 
+                                            aria-haspopup="true"  
+                                        >
+                                                <Typography>{item.name}</Typography>
+                                        </ListItem>
+                                        <Menu
+                                            id="basic-menu"
+                                            anchorEl={anchorElSection}
+                                            open={Boolean(anchorElSection)} 
+                                            onClose={handleCloseSubsection}
+                                            MenuListProps={{ onMouseLeave: handleCloseSubsection }}
+                                            anchorOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'left',
+                                            }}
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'left',
+                                            }}
+                                        >
+                                            <MenuItem key={item.name} onClick={(e) => menuCloseHandler(e, `${item.path}`)} sx={{padding: '0.5em 4em 0.5em 0.5em'}}>
+                                                {item.name}
+                                            </MenuItem>
+                                            {categories.map((category) => (
+                                                <MenuItem 
+                                                    key={category} 
+                                                    onClick={(e) => menuCloseHandler(e, `/search?category=${category}`)}
+                                                    sx={{padding: '0.5em 4em 0.5em 0.5em'}}
+                                                >
+                                                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                                                </MenuItem>
+                                            ))}
+                                        </Menu>
+                                    </>
+                                :   <ListItem key={item.name}>
                                         <Link href={`${item.path}`}><Typography>{item.name}</Typography></Link>
-                                </ListItem>
+                                    </ListItem>
                             ))}
                         </List>
                     </Box>
@@ -217,7 +236,7 @@ function Layout({title, description, children}) {
                         <form onSubmit={submitHandler}>
                             <Search >
                             <IconButton type="submit" aria-label="search" >
-                                <SearchIcon sx={{fill: 'white'}}/>
+                                <SearchIcon sx={{fill: 'black'}}/>
                             </IconButton>
                                 <StyledInputBase
                                     placeholder="Поиск…"
@@ -227,7 +246,7 @@ function Layout({title, description, children}) {
                             </Search>
                         </form>
                         <Link href="/cart">
-                            <IconButton sx={{color: 'white'}}>
+                            <IconButton sx={{color: 'black'}}>
                                 {
                                     cart.cartItems.length > 0 
                                     ?   <Badge color="secondary" badgeContent={cart.cartItems.length}>
@@ -239,7 +258,11 @@ function Layout({title, description, children}) {
                         </Link>
                         {userInfo ? (
                             <>
-                                <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={loginClickHandler}>
+                                <IconButton 
+                                    aria-controls="simple-menu" 
+                                    aria-haspopup="true"         
+                                    onClick={loginClickHandler}
+                                >
                                     <Avatar {...stringAvatar(userInfo.name)} sx={{ width: 24, height: 24 }}/>
                                 </IconButton>
                                 <Menu 
@@ -247,15 +270,43 @@ function Layout({title, description, children}) {
                                     anchorEl={anchorEl} 
                                     keepMounted 
                                     open={Boolean(anchorEl)} 
-                                    onClose={handleClose}
+                                    onClose={mainMenuCloseHandler}
+                                    PaperProps={{
+                                    elevation: 0,
+                                    sx: {
+                                        overflow: 'visible',
+                                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                        mt: 1.5,
+                                        '& .MuiAvatar-root': {
+                                            width: 32,
+                                            height: 32,
+                                            ml: -0.5,
+                                            mr: 1,
+                                        },
+                                            '&:before': {
+                                                content: '""',
+                                                display: 'block',
+                                                position: 'absolute',
+                                                top: 0,
+                                                right: 14,
+                                                width: 10,
+                                                height: 10,
+                                                bgcolor: 'background.paper',
+                                                transform: 'translateY(-50%) rotate(45deg)',
+                                                zIndex: 0,
+                                            },
+                                        },
+                                    }}
+                                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                 >
                                     <MenuItem><Typography variant='h6'>{userInfo.name}</Typography></MenuItem>
-                                    <MenuItem onClick={(e) => loginMenuCloseHandler(e, '/profile')} >Профиль</MenuItem>
-                                    <MenuItem onClick={(e) => loginMenuCloseHandler(e, '/order-history')}>
+                                    <MenuItem onClick={(e) => menuCloseHandler(e, '/profile')} >Профиль</MenuItem>
+                                    <MenuItem onClick={(e) => menuCloseHandler(e, '/order-history')}>
                                         История заказа
                                     </MenuItem>
                                     {userInfo.isAdmin && (
-                                        <MenuItem onClick={(e) => loginMenuCloseHandler(e, '/admin/dashboard') }>
+                                        <MenuItem onClick={(e) => menuCloseHandler(e, '/admin/dashboard') }>
                                             Панель админа
                                         </MenuItem>
                                     )}
@@ -264,7 +315,7 @@ function Layout({title, description, children}) {
                             </>
                         ) : (
                             <Link href="/login" passHref>
-                                <IconButton  sx={{color: 'white'}}>
+                                <IconButton  sx={{color: 'black'}}>
                                     <AccountCircleIcon></AccountCircleIcon>
                                 </IconButton>
                             </Link>
@@ -272,7 +323,7 @@ function Layout({title, description, children}) {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Container maxWidth="xl" sx={{marginTop: '20px', minHeight: '100vh'}}>{children}</Container>
+            <div style={{marginTop: '20px', minHeight: '100vh'}}>{children}</div>
             <footer>
                 <Typography>All rights reserved. Ultimate Digital Agency Morkovka</Typography>
             </footer>

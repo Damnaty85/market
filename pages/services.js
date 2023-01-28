@@ -4,8 +4,8 @@ import Layout from '../components/Layout'
 
 export default function ServicesScreen() {
     return (
-        <Layout title='Услуги'>
-            <Typography variant="h4">Услуги</Typography>
+        <Layout title='Подарки'>
+            <Typography variant="h4">Подарки</Typography>
         </Layout>
     )
 }

@@ -32,8 +32,8 @@ export default function ProductScreen(props) {
     };
 
     return (
-        <>
-            <Layout title={product.name} description={product.description}>
+        <Layout title={product.name} description={product.description}>
+            <div className='center'>
                 <Grid container spacing={2} sx={{marginTop: '40px'}}>
                     <Grid item xs={3}>
                         <Image src={product.image} alt={product.name} width={320} height={600}></Image>
@@ -115,8 +115,8 @@ export default function ProductScreen(props) {
                     </Grid>
                 </Grid>
                 {/* <Link href='/products'><Typography>К покупкам</Typography></Link> */}
-            </Layout>
-        </>
+            </div>
+        </Layout>
     )
 }
 

@@ -130,81 +130,83 @@ function AdminDashboard() {
    };
 
    return (
-        <Layout title="Товары">
-            <Grid container spacing={1}>
-                <Grid item md={3} xs={12}>
-                    <SidePanelAdmin />
-                </Grid>
-                <Grid item md={9} xs={12}>
-                    <Card>
-                        <List>
-                            <ListItem>
-                            <Grid container alignItems="center">
-                                <Grid item xs={6}>
-                                    <Typography variant="h6">
-                                        Товары
-                                    </Typography>
-                                    {loadingDelete && <CircularProgress />}
+        <Layout title="Администрирование товаров">
+            <div className='center'>
+                <Grid container spacing={1}>
+                    <Grid item md={3} xs={12}>
+                        <SidePanelAdmin />
+                    </Grid>
+                    <Grid item md={9} xs={12}>
+                        <Card>
+                            <List>
+                                <ListItem>
+                                <Grid container alignItems="center">
+                                    <Grid item xs={6}>
+                                        <Typography variant="h6">
+                                            Товары
+                                        </Typography>
+                                        {loadingDelete && <CircularProgress />}
+                                    </Grid>
+                                    <Grid align="right" item xs={6}>
+                                        <Button
+                                            onClick={createHandler}
+                                            color="success"
+                                            variant="contained"
+                                        >
+                                            Добавить новый товар                                    
+                                        </Button>
+                                        {loadingCreate && <CircularProgress />}
+                                    </Grid>
                                 </Grid>
-                                <Grid align="right" item xs={6}>
-                                    <Button
-                                        onClick={createHandler}
-                                        color="success"
-                                        variant="contained"
-                                    >
-                                        Добавить новый товар                                    
-                                    </Button>
-                                    {loadingCreate && <CircularProgress />}
-                                </Grid>
-                            </Grid>
-                            </ListItem>
-                            <ListItem>
-                                {loading ? (
-                                    <CircularProgress />
-                                ) : error ? (
-                                    <Typography>{error}</Typography>
-                                ) : (
-                                    <TableContainer>
-                                        <Table>
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>ID</TableCell>
-                                                    <TableCell>ИМЯ</TableCell>
-                                                    <TableCell>ЦЕНА</TableCell>
-                                                    <TableCell>АКЦИЯ</TableCell>
-                                                    <TableCell>КАТЕГОРИЯ</TableCell>
-                                                    <TableCell>БРЭНД</TableCell>
-                                                    <TableCell sx={{width: '255px'}}></TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {products.map((product) => (
-                                                    <TableRow key={product._id}>
-                                                        <TableCell>
-                                                            {product._id.substring(20, 24)}
-                                                        </TableCell>
-                                                        <TableCell>{product.name}</TableCell>
-                                                        <TableCell>{product.price} руб.</TableCell>
-                                                        <TableCell>{product.new_price} руб.</TableCell>
-                                                        <TableCell>{product.category}</TableCell>
-                                                        <TableCell>{product.brand}</TableCell>
-                                                        <TableCell sx={{width: '255px'}}>
-                                                            <Link href={`/admin/product/${product._id}`}>
-                                                                <Button size="small" variant="contained">Редактировать</Button>
-                                                            </Link>{' '} 
-                                                            <Button size="small" variant="outlined" color="error" onClick={() => deleteHandler(product._id)}>Удалить</Button>
-                                                        </TableCell>
+                                </ListItem>
+                                <ListItem>
+                                    {loading ? (
+                                        <CircularProgress />
+                                    ) : error ? (
+                                        <Typography>{error}</Typography>
+                                    ) : (
+                                        <TableContainer>
+                                            <Table>
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell>ID</TableCell>
+                                                        <TableCell>ИМЯ</TableCell>
+                                                        <TableCell>ЦЕНА</TableCell>
+                                                        <TableCell>АКЦИЯ</TableCell>
+                                                        <TableCell>КАТЕГОРИЯ</TableCell>
+                                                        <TableCell>БРЭНД</TableCell>
+                                                        <TableCell sx={{width: '255px'}}></TableCell>
                                                     </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                )}
-                            </ListItem>
-                        </List>
-                    </Card>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {products.map((product) => (
+                                                        <TableRow key={product._id}>
+                                                            <TableCell>
+                                                                {product._id.substring(20, 24)}
+                                                            </TableCell>
+                                                            <TableCell>{product.name}</TableCell>
+                                                            <TableCell>{product.price} руб.</TableCell>
+                                                            <TableCell>{product.new_price} руб.</TableCell>
+                                                            <TableCell>{product.category}</TableCell>
+                                                            <TableCell>{product.brand}</TableCell>
+                                                            <TableCell sx={{width: '255px'}}>
+                                                                <Link href={`/admin/product/${product._id}`}>
+                                                                    <Button size="small" variant="contained">Редактировать</Button>
+                                                                </Link>{' '} 
+                                                                <Button size="small" variant="outlined" color="error" onClick={() => deleteHandler(product._id)}>Удалить</Button>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    )}
+                                </ListItem>
+                            </List>
+                        </Card>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </div>
         </Layout>
     );
 }

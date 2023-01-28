@@ -131,76 +131,78 @@ function AdminDashboard() {
 
    return (
         <Layout title="Товары">
-            <Grid container spacing={1}>
-                <Grid item md={3} xs={12}>
-                    <SidePanelAdmin />
-                </Grid>
-                <Grid item md={9} xs={12}>
-                    <Card>
-                        <List>
-                            <ListItem>
-                            <Grid container alignItems="center">
-                                <Grid item xs={6}>
-                                    <Typography variant="h6">
-                                        Баннеры
-                                    </Typography>
-                                    {loadingDelete && <CircularProgress />}
+            <div className='center'>
+                <Grid container spacing={1}>
+                    <Grid item md={3} xs={12}>
+                        <SidePanelAdmin />
+                    </Grid>
+                    <Grid item md={9} xs={12}>
+                        <Card>
+                            <List>
+                                <ListItem>
+                                <Grid container alignItems="center">
+                                    <Grid item xs={6}>
+                                        <Typography variant="h6">
+                                            Баннеры
+                                        </Typography>
+                                        {loadingDelete && <CircularProgress />}
+                                    </Grid>
+                                    <Grid align="right" item xs={6}>
+                                        <Button
+                                            onClick={createHandler}
+                                            color="success"
+                                            variant="contained"
+                                        >
+                                            Добавить новый баннер                                  
+                                        </Button>
+                                        {loadingCreate && <CircularProgress />}
+                                    </Grid>
                                 </Grid>
-                                <Grid align="right" item xs={6}>
-                                    <Button
-                                        onClick={createHandler}
-                                        color="success"
-                                        variant="contained"
-                                    >
-                                        Добавить новый баннер                                  
-                                    </Button>
-                                    {loadingCreate && <CircularProgress />}
-                                </Grid>
-                            </Grid>
-                            </ListItem>
-                            <ListItem>
-                                {loading ? (
-                                    <CircularProgress />
-                                ) : error ? (
-                                    <Typography>{error}</Typography>
-                                ) : (
-                                    <TableContainer>
-                                        <Table>
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>ID</TableCell>
-                                                    <TableCell>НАЗВАНИЕ</TableCell>
-                                                    <TableCell>ОПИСАНИЕ</TableCell>
-                                                    <TableCell>ССЫЛКА</TableCell>
-                                                    <TableCell sx={{width: '255px'}}></TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {banners.map((banner) => (
-                                                    <TableRow key={banner._id}>
-                                                        <TableCell>
-                                                            {banner._id.substring(20, 24)}
-                                                        </TableCell>
-                                                        <TableCell>{banner.title}</TableCell>
-                                                        <TableCell>{banner.description}</TableCell>
-                                                        <TableCell>{banner.link}</TableCell>
-                                                        <TableCell sx={{width: '255px'}}>
-                                                            <Link href={`/admin/banner/${banner._id}`}>
-                                                                <Button size="small" variant="contained">Редактировать</Button>
-                                                            </Link>{' '} 
-                                                            <Button size="small" variant="outlined" color="error" onClick={() => deleteHandler(banner._id)}>Удалить</Button>
-                                                        </TableCell>
+                                </ListItem>
+                                <ListItem>
+                                    {loading ? (
+                                        <CircularProgress />
+                                    ) : error ? (
+                                        <Typography>{error}</Typography>
+                                    ) : (
+                                        <TableContainer>
+                                            <Table>
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell>ID</TableCell>
+                                                        <TableCell>НАЗВАНИЕ</TableCell>
+                                                        <TableCell>ОПИСАНИЕ</TableCell>
+                                                        <TableCell>ССЫЛКА</TableCell>
+                                                        <TableCell sx={{width: '255px'}}></TableCell>
                                                     </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                )}
-                            </ListItem>
-                        </List>
-                    </Card>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {banners.map((banner) => (
+                                                        <TableRow key={banner._id}>
+                                                            <TableCell>
+                                                                {banner._id.substring(20, 24)}
+                                                            </TableCell>
+                                                            <TableCell>{banner.title}</TableCell>
+                                                            <TableCell>{banner.description}</TableCell>
+                                                            <TableCell>{banner.link}</TableCell>
+                                                            <TableCell sx={{width: '255px'}}>
+                                                                <Link href={`/admin/banner/${banner._id}`}>
+                                                                    <Button size="small" variant="contained">Редактировать</Button>
+                                                                </Link>{' '} 
+                                                                <Button size="small" variant="outlined" color="error" onClick={() => deleteHandler(banner._id)}>Удалить</Button>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    )}
+                                </ListItem>
+                            </List>
+                        </Card>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </div>
         </Layout>
     );
 }

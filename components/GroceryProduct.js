@@ -1,12 +1,12 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, Typography } from "@mui/material"
+import { Card, CardActionArea, CardActions, CardContent, Typography } from "@mui/material"
 import Image from "next/image";
 import Link from "next/link"
 import React from 'react';
 
-export default function ProductItem({ product, addToCartHandler }) {
+export default function GroceryProduct({ product }) {
     return (
         <Card sx={{ height: '100%', minHeight: '400px', display: 'flex', flexDirection: 'column' }}>
-            <Link href={`/product/${product.slug}`}>
+            <Link href={`/gastronomy/${product.slug}`}>
                 <CardActionArea>
                     {
                         product.new_price > 1 &&
@@ -34,8 +34,8 @@ export default function ProductItem({ product, addToCartHandler }) {
                     <Image src={product.image} alt={product.name} height="250" width="400" style={{padding: '1em'}}></Image>
                     <CardContent>
                         <Typography variant="h5" sx={{fontSize: '18px'}}>{product.name}</Typography>
-                        <Typography sx={{fontSize: '14px', opacity: '0.7'}}>{product.country}, {product.brand}</Typography>
-                        <Typography sx={{fontSize: '14px', opacity: '0.7'}}>{product.category} {product.shugar}, {product.volume}л.</Typography>
+                        <Typography sx={{fontSize: '14px', opacity: '0.7'}}>{product.country} {product.brand}</Typography>
+                        <Typography sx={{fontSize: '14px', opacity: '0.7'}}>{product.weight}{product.weight_unit}</Typography>
                     </CardContent>
                 </CardActionArea>
             </Link>
@@ -83,7 +83,6 @@ export default function ProductItem({ product, addToCartHandler }) {
                         </div>
                         : <Typography variant="h6" sx={{fontWeight: '600', marginTop: 'auto'}}>{product.price} руб.</Typography>
                 }
-                <Button variant="contained" color="primary" onClick={() => addToCartHandler(product)}>Купить</Button>
             </CardActions>
         </Card>
     )

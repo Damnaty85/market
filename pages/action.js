@@ -28,14 +28,16 @@ export default function ProductsScreen(props) {
 	};
     return (
         <Layout title='Акции в нашем магазине'> 
-            <Typography variant="h4">Акции</Typography>
-            <Grid container spacing={3} sx={{marginTop: '20px'}}>
-                {products.map((product) => (
-                    <Grid item md={3} key={product._id}>
-                        <ProductItem product={product} addToCartHandler={addToCartHandler}/>
-                    </Grid>
-                ))}
-			</Grid>
+            <div className="center">
+                <Typography variant="h4">Акции</Typography>
+                <Grid container spacing={3} sx={{marginTop: '20px'}}>
+                    {products.map((product) => (
+                        <Grid item md={3} key={product._id}>
+                            <ProductItem product={product} addToCartHandler={addToCartHandler}/>
+                        </Grid>
+                    ))}
+                </Grid>
+            </div>
         </Layout>
     )
 }
