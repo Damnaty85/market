@@ -6,7 +6,7 @@ import Gastronomy from "../models/Gastronomy";
 // import { Store } from '../utils/Store';
 // import ProductItem from "../components/ProductItem";
 import { Grid, Typography } from "@mui/material";
-import GroceryProduct from "../components/GroceryProduct";
+import GroceryProduct from "../components/GastronomyProduct";
 // import { useSnackbar } from 'notistack';
 
 export default function ServicesScreen(props) {

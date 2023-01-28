@@ -135,91 +135,97 @@ export default function Home(props) {
 				<Box sx={{ width: '100%' }}>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-							<Tab label="Акционные товары" {...a11yProps(0)} />
-							<Tab label="Новые товары" {...a11yProps(1)} />
-							<Tab label="Популярные товары" {...a11yProps(2)} />
+							{newProducts && <Tab label="Акционные товары" {...a11yProps(0)} />}
+							{newProducts && <Tab label="Новые товары" {...a11yProps(1)} />}
+							{popularProducts && <Tab label="Популярные товары" {...a11yProps(2)} />}
 						</Tabs>
 					</Box>
-					<TabPanel value={value} index={0}>
-						<Swiper
-							autoHeight={true}
-							spaceBetween={20}
-							slidesPerView={4}
-							navigation
-							autoplay
-							pagination={{ clickable: true }}
-							scrollbar={{ draggable: true }}
-							modules={[Autoplay, Pagination, Navigation]}
-							style={{padding: '30px 0'}}
-						>
-							{actionProducts.map((product) => (
-								<SwiperSlide key={product._id}>
-									<ProductItem
-										product={product}
-										addToCartHandler={addToCartHandler}
-									/>
-								</SwiperSlide>
-							))}
-						</Swiper>
-					</TabPanel>
-					<TabPanel value={value} index={1}>
-						<Swiper
-							autoHeight={true}
-							spaceBetween={20}
-							slidesPerView={4}
-							navigation
-							speed={1500}
-							autoplay={{
-								delay: 3000,
-								disableOnInteraction: false,
-							}}
-							pagination={{ clickable: true }}
-							scrollbar={{ draggable: true }}
-							style={{padding: '30px 0'}}
-							modules={[Autoplay, Pagination, Navigation]}
-							onBeforeInit={(swiper) => {
-								swiperRef.current = swiper;
-							}}
-						>
-							{newProducts.map((product) => (
-								<SwiperSlide key={product._id}>
-									<ProductItem
-										product={product}
-										addToCartHandler={addToCartHandler}
-									/>
-								</SwiperSlide>
-							))}
-							{
-								newProducts.length > 4 &&
-								<div style={{width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'flex-end'}}>
-									<Button onClick={() => swiperRef.current?.slidePrev()}><ArrowBackIosNewIcon/></Button>
-									<Button onClick={() => swiperRef.current?.slideNext()}><ArrowForwardIosIcon/></Button>
-								</div>
-							}
-						</Swiper>
-					</TabPanel>
-					<TabPanel value={value} index={2}>
-						<Swiper
-							autoHeight={true}
-							spaceBetween={20}
-							slidesPerView={4}
-							navigation
-							autoplay
-							pagination={{ clickable: true }}
-							scrollbar={{ draggable: true }}
-							modules={[Autoplay, Pagination, Navigation]}
-							style={{padding: '30px 0'}}
-						>
-							{popularProducts.map((product) => (
-								<SwiperSlide key={product._id}>
-									<ProductItem
-										product={product}
-										addToCartHandler={addToCartHandler}
-									/>
-								</SwiperSlide>
-							))}
-						</Swiper>
-					</TabPanel>
+					{newProducts &&
+						<TabPanel value={value} index={0}>
+							<Swiper
+								autoHeight={true}
+								spaceBetween={20}
+								slidesPerView={4}
+								navigation
+								autoplay
+								pagination={{ clickable: true }}
+								scrollbar={{ draggable: true }}
+								modules={[Autoplay, Pagination, Navigation]}
+								style={{padding: '30px 0'}}
+							>
+								{actionProducts.map((product) => (
+									<SwiperSlide key={product._id}>
+										<ProductItem
+											product={product}
+											addToCartHandler={addToCartHandler}
+										/>
+									</SwiperSlide>
+								))}
+							</Swiper>
+						</TabPanel>
+					}
+					{newProducts && 
+						<TabPanel value={value} index={1}>
+							<Swiper
+								autoHeight={true}
+								spaceBetween={20}
+								slidesPerView={4}
+								navigation
+								speed={1500}
+								autoplay={{
+									delay: 3000,
+									disableOnInteraction: false,
+								}}
+								pagination={{ clickable: true }}
+								scrollbar={{ draggable: true }}
+								style={{padding: '30px 0'}}
+								modules={[Autoplay, Pagination, Navigation]}
+								onBeforeInit={(swiper) => {
+									swiperRef.current = swiper;
+								}}
+							>
+								{newProducts.map((product) => (
+									<SwiperSlide key={product._id}>
+										<ProductItem
+											product={product}
+											addToCartHandler={addToCartHandler}
+										/>
+									</SwiperSlide>
+								))}
+								{
+									newProducts.length > 4 &&
+									<div style={{width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'flex-end'}}>
+										<Button onClick={() => swiperRef.current?.slidePrev()}><ArrowBackIosNewIcon/></Button>
+										<Button onClick={() => swiperRef.current?.slideNext()}><ArrowForwardIosIcon/></Button>
+									</div>
+								}
+							</Swiper>
+						</TabPanel>
+					}
+					{popularProducts && 
+						<TabPanel value={value} index={2}>
+							<Swiper
+								autoHeight={true}
+								spaceBetween={20}
+								slidesPerView={4}
+								navigation
+								autoplay
+								pagination={{ clickable: true }}
+								scrollbar={{ draggable: true }}
+								modules={[Autoplay, Pagination, Navigation]}
+								style={{padding: '30px 0'}}
+							>
+								{popularProducts.map((product) => (
+									<SwiperSlide key={product._id}>
+										<ProductItem
+											product={product}
+											addToCartHandler={addToCartHandler}
+										/>
+									</SwiperSlide>
+								))}
+							</Swiper>
+						</TabPanel>
+					}
 				</Box>
 			</div>
 		</Layout>

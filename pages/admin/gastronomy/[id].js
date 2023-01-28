@@ -11,10 +11,6 @@ import {
     Button,
     TextField,
     CircularProgress,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
 } from '@mui/material';
 import { getError } from '../../../utils/error';
 import { Store } from '../../../utils/Store';
@@ -77,27 +73,29 @@ function ProductEdit({ params }) {
         const fetchData = async () => {
             try {
                 dispatch({ type: 'FETCH_REQUEST' });
-                    const { data } = await axios.get(`/api/admin/products/${productId}`, {
+                    const { data } = await axios.get(`/api/admin/gastronomy/${productId}`, {
                         headers: { authorization: `Bearer ${userInfo.token}` },
                 });
                 dispatch({ type: 'FETCH_SUCCESS' });
                 setValue('name', data.name);
                 setValue('slug', data.slug);
+                setValue('category', data.category);
+                setValue('image', data.image);
                 setValue('price', data.price);
                 setValue('new_price', data.new_price);
-                setValue('image', data.image);
-                setValue('category', data.category);
-                setValue('sort', data.sort);
-                setValue('color', data.color);
-                setValue('country', data.country);
-                setValue('shugar', data.shugar);
-                setValue('volume', data.volume);
-                setValue('percentage', data.percentage);
                 setValue('brand', data.brand);
                 setValue('countInStock', data.countInStock);
                 setValue('description', data.description);
-                setValue('popular', data.popular);
-                setValue('new_products', data.new_products);
+                setValue('composition', data.composition);
+                setValue('shelf_life', data.shelf_life);
+                setValue('storage_rules', data.storage_rules);
+                setValue('weight', data.weight);
+                setValue('weight_unit', data.weight_unit);
+                setValue('country', data.country);
+                setValue('weight_unit', data.weight_unit);
+                setValue('appearance', data.appearance);
+                setValue('color', data.color);
+                setValue('product_date', data.product_date);
             } catch (err) {
                 dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
             }
@@ -133,42 +131,44 @@ function ProductEdit({ params }) {
         name,
         slug,
         category,
-        volume,
-        percentage,
-        sort,
-        color,
-        country,
-        shugar,
-        description,
+        image,
         price,
         new_price,
-        image,
         brand,
         countInStock,
-        popular,
-        new_products
+        description,
+        composition,
+        shelf_life,
+        storage_rules,
+        weight,
+        weight_unit,
+        country,
+        appearance,
+        color,
+        product_date
       }) => {
         closeSnackbar();
         try {
             await axios.put(
-                `/api/admin/products/${productId}`, {
+                `/api/admin/gastronomy/${productId}`, {
                     name,
                     slug,
                     category,
-                    volume,
-                    percentage,
-                    sort,
-                    color,
-                    country,
-                    shugar,
-                    description,
+                    image,
                     price,
                     new_price,
-                    image,
                     brand,
                     countInStock,
-                    popular,
-                    new_products
+                    description,
+                    composition,
+                    shelf_life,
+                    storage_rules,
+                    weight,
+                    weight_unit,
+                    country,
+                    appearance,
+                    color,
+                    product_date
                 },
                 { headers: { authorization: `Bearer ${userInfo.token}` } }
             );
@@ -309,29 +309,54 @@ function ProductEdit({ params }) {
                                                 )}
                                             ></Controller>
                                         </ListItem>
-                                        <ListItem>
-                                            <Controller
-                                                name="shugar"
-                                                control={control}
-                                                defaultValue=""
-                                                rules={{
-                                                    required: false,
-                                                }}
-                                                render={({ field }) => (
-                                                    <TextField
-                                                        variant="outlined"
-                                                        fullWidth
-                                                        id="shugar"
-                                                        label="Сахар"
-                                                        error={Boolean(errors.shugar)}
-                                                        helperText={
-                                                        errors.shugar ? 'Сахар обязательна' : ''
-                                                        }
-                                                        {...field}
-                                                    ></TextField>
-                                                )}
-                                            ></Controller>
-                                        </ListItem>
+                                        <div style={{display: 'flex'}}>
+                                            <ListItem>
+                                                <Controller
+                                                    name="weight"
+                                                    control={control}
+                                                    defaultValue=""
+                                                    rules={{
+                                                        required: false,
+                                                    }}
+                                                    render={({ field }) => (
+                                                        <TextField
+                                                            variant="outlined"
+                                                            fullWidth
+                                                            id="weight"
+                                                            label="Вес"
+                                                            error={Boolean(errors.weight)}
+                                                            helperText={
+                                                            errors.weight ? 'Вес обязательно' : ''
+                                                            }
+                                                            {...field}
+                                                        ></TextField>
+                                                    )}
+                                                ></Controller>
+                                            </ListItem>
+                                            <ListItem>
+                                                <Controller
+                                                    name="weight_unit"
+                                                    control={control}
+                                                    defaultValue=""
+                                                    rules={{
+                                                        required: false,
+                                                    }}
+                                                    render={({ field }) => (
+                                                        <TextField
+                                                            variant="outlined"
+                                                            fullWidth
+                                                            id="weight_unit"
+                                                            label="Еденица измирения веса"
+                                                            error={Boolean(errors.weight_unit)}
+                                                            helperText={
+                                                            errors.weight_unit ? 'Еденица измирения веса обязательно' : ''
+                                                            }
+                                                            {...field}
+                                                        ></TextField>
+                                                    )}
+                                                ></Controller>
+                                            </ListItem>
+                                        </div>
                                         <ListItem>
                                             <Controller
                                                 name="color"
@@ -357,7 +382,7 @@ function ProductEdit({ params }) {
                                         </ListItem>
                                         <ListItem>
                                             <Controller
-                                                name="volume"
+                                                name="composition"
                                                 control={control}
                                                 defaultValue=""
                                                 rules={{
@@ -367,11 +392,11 @@ function ProductEdit({ params }) {
                                                     <TextField
                                                         variant="outlined"
                                                         fullWidth
-                                                        id="volume"
-                                                        label="Объем, л"
-                                                        error={Boolean(errors.volume)}
+                                                        id="composition"
+                                                        label="Состав продукта"
+                                                        error={Boolean(errors.composition)}
                                                         helperText={
-                                                        errors.volume ? 'Объем обязательна' : ''
+                                                        errors.composition ? 'Состав продукта обязательна' : ''
                                                         }
                                                         {...field}
                                                     ></TextField>
@@ -380,7 +405,7 @@ function ProductEdit({ params }) {
                                         </ListItem>
                                         <ListItem>
                                             <Controller
-                                                name="percentage"
+                                                name="shelf_life"
                                                 control={control}
                                                 defaultValue=""
                                                 rules={{
@@ -390,11 +415,11 @@ function ProductEdit({ params }) {
                                                     <TextField
                                                         variant="outlined"
                                                         fullWidth
-                                                        id="percentage"
-                                                        label="Алкоголь, %"
-                                                        error={Boolean(errors.percentage)}
+                                                        id="shelf_life"
+                                                        label="Срок хранения продукта"
+                                                        error={Boolean(errors.shelf_life)}
                                                         helperText={
-                                                        errors.percentage ? 'Алкоголь обязательна' : ''
+                                                        errors.shelf_life ? 'Срок хранения продукта обязательно' : ''
                                                         }
                                                         {...field}
                                                     ></TextField>
@@ -403,7 +428,7 @@ function ProductEdit({ params }) {
                                         </ListItem>
                                         <ListItem>
                                             <Controller
-                                                name="sort"
+                                                name="product_date"
                                                 control={control}
                                                 defaultValue=""
                                                 rules={{
@@ -413,11 +438,57 @@ function ProductEdit({ params }) {
                                                     <TextField
                                                         variant="outlined"
                                                         fullWidth
-                                                        id="sort"
-                                                        label="Сорт винограда"
-                                                        error={Boolean(errors.sort)}
+                                                        id="product_date"
+                                                        label="Дата производства продукта"
+                                                        error={Boolean(errors.product_date)}
                                                         helperText={
-                                                        errors.sort ? 'Сорт винограда обязательна' : ''
+                                                        errors.product_date ? 'Дата производства продукта обязательно' : ''
+                                                        }
+                                                        {...field}
+                                                    ></TextField>
+                                                )}
+                                            ></Controller>
+                                        </ListItem>
+                                        <ListItem>
+                                            <Controller
+                                                name="appearance"
+                                                control={control}
+                                                defaultValue=""
+                                                rules={{
+                                                    required: false,
+                                                }}
+                                                render={({ field }) => (
+                                                    <TextField
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        id="appearance"
+                                                        label="Внешний вид продукта"
+                                                        error={Boolean(errors.appearance)}
+                                                        helperText={
+                                                        errors.appearance ? 'Внешний вид продукта обязательно' : ''
+                                                        }
+                                                        {...field}
+                                                    ></TextField>
+                                                )}
+                                            ></Controller>
+                                        </ListItem>
+                                        <ListItem>
+                                            <Controller
+                                                name="storage_rules"
+                                                control={control}
+                                                defaultValue=""
+                                                rules={{
+                                                    required: false,
+                                                }}
+                                                render={({ field }) => (
+                                                    <TextField
+                                                        variant="outlined"
+                                                        fullWidth
+                                                        id="storage_rules"
+                                                        label="Правила хранения продукта"
+                                                        error={Boolean(errors.storage_rules)}
+                                                        helperText={
+                                                        errors.sort ? 'Правила хранения продукта обязательно' : ''
                                                         }
                                                         {...field}
                                                     ></TextField>
@@ -493,68 +564,6 @@ function ProductEdit({ params }) {
                                                 )}
                                             ></Controller>
                                         </ListItem>
-                                        <div style={{display: 'flex'}}>
-                                            <ListItem>
-                                                <Controller
-                                                    name="popular"
-                                                    control={control}
-                                                    defaultValue=""
-                                                    rules={{
-                                                        required: false,
-                                                    }}
-                                                    render={({ field }) => (
-                                                        <FormControl fullWidth>
-                                                            <InputLabel id="popular" sx={{backgroundColor: 'white', padding: '0 5px'}}>Отображать в блоке популярные</InputLabel>
-                                                            <Select
-                                                                variant="outlined"
-                                                                fullWidth
-                                                                id="popular"
-                                                                error={Boolean(errors.popular)}
-                                                                helperText={
-                                                                errors.popular
-                                                                    ? ''
-                                                                    : ''
-                                                                }
-                                                                {...field}
-                                                            >
-                                                                <MenuItem value={false}>Нет</MenuItem>
-                                                                <MenuItem value={true}>Да</MenuItem>
-                                                            </Select>
-                                                        </FormControl>
-                                                    )}
-                                                ></Controller>
-                                            </ListItem>
-                                            <ListItem>
-                                                <Controller
-                                                    name="new_products"
-                                                    control={control}
-                                                    defaultValue=""
-                                                    rules={{
-                                                        required: false,
-                                                    }}
-                                                    render={({ field }) => (
-                                                        <FormControl fullWidth>
-                                                            <InputLabel id="new_products" sx={{backgroundColor: 'white', padding: '0 5px'}}>Показывать в блоке новых товаров</InputLabel>
-                                                            <Select
-                                                                variant="outlined"
-                                                                fullWidth
-                                                                id="new_products"
-                                                                error={Boolean(errors.new_products)}
-                                                                helperText={
-                                                                errors.new_products
-                                                                    ? ''
-                                                                    : ''
-                                                                }
-                                                                {...field}
-                                                            >
-                                                                <MenuItem value={false}>Нет</MenuItem>
-                                                                <MenuItem value={true}>Да</MenuItem>
-                                                            </Select>
-                                                        </FormControl>
-                                                    )}
-                                                ></Controller>
-                                            </ListItem>
-                                        </div>
                                         <ListItem>
                                             <Controller
                                                 name="image"

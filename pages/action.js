@@ -7,10 +7,12 @@ import { Store } from '../utils/Store';
 import ProductItem from "../components/ProductItem";
 import { Grid, Typography } from "@mui/material";
 import { useSnackbar } from 'notistack';
+import Gastronomy from "../models/Gastronomy";
+import GroceryProduct from "../components/GastronomyProduct";
 
 export default function ProductsScreen(props) {
 	const { state, dispatch } = useContext(Store);
-	const { products } = props;
+	const { products, gastronomy } = props;
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 	
 	const addToCartHandler = async (product) => {
@@ -36,6 +38,11 @@ export default function ProductsScreen(props) {
                             <ProductItem product={product} addToCartHandler={addToCartHandler}/>
                         </Grid>
                     ))}
+					{gastronomy.map((product) => (
+                        <Grid item md={3} key={product._id}>
+                            <GroceryProduct product={product}/>
+                        </Grid>
+                    ))}
                 </Grid>
             </div>
         </Layout>
@@ -45,10 +52,12 @@ export default function ProductsScreen(props) {
 export async function getServerSideProps() {
 	await db.connect();
 	const products = await Product.find({new_price: { $gte: 1}}, '').lean();
+	const gastronomy = await Gastronomy.find({new_price: { $gte: 1}}, '').lean();
 	await db.disconnect();
 	return {
 		props: {
 			products: products.map(db.convertDocToObj),
+			gastronomy: gastronomy.map(db.convertDocToObj),
 		},
 	};
 }

@@ -16,6 +16,10 @@ const panelElements = [
         name: 'Товары'
     },
     {
+        link: '/admin/gastronomy', 
+        name: 'Гастрономия'
+    },
+    {
         link: '/admin/banners', 
         name: 'Банеры'
     }

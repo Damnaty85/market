@@ -53,7 +53,7 @@ const navLinks = [
     },
     {
         name: "Гастрономия",
-        path: "/grocery",
+        path: "/gastronomy",
         parent: false
     },
     {
