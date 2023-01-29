@@ -166,7 +166,7 @@ function Layout({title, description, children}) {
     const mainTheme = createTheme({
         palette: {
           primary: {
-            main: '#D7B588',
+            main: '#EEEEEE',
           },
         },
     });
@@ -181,7 +181,28 @@ function Layout({title, description, children}) {
                 <Toolbar sx={{ justifyContent: 'space-between' }} >
                     <Box display={'flex'} alignItems={'center'}>
                         <Link href='/'>
-                            <Typography sx={{fontSize: '22px', fontWeight: '700'}}>Особый случай</Typography>
+                            <Typography sx={{
+                                    fontWeight: '700',
+                                    fontFamily: 'Monotype Corsiva',
+                                    fontStyle: 'italic',
+                                    fontSize: '40px',
+                                    color: 'rgb(148, 109, 70)',
+                                    textShadow: '6px 3px 5px rgba(0, 0, 0, 0.15)',
+                                }}>
+                                    Особый
+                                </Typography> 
+                                <Typography sx={{
+                                    fontWeight: '700',
+                                    fontFamily: 'Monotype Corsiva',
+                                    fontStyle: 'italic',
+                                    fontSize: '40px',
+                                    color: 'rgb(148, 109, 70)',
+                                    marginTop: '-32px',
+                                    marginLeft: '50px',
+                                    textShadow: '6px 3px 5px rgba(0, 0, 0, 0.15)',
+                                }}>
+                                    случай
+                                </Typography>
                         </Link>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -236,7 +257,7 @@ function Layout({title, description, children}) {
                         <form onSubmit={submitHandler}>
                             <Search >
                             <IconButton type="submit" aria-label="search" >
-                                <SearchIcon sx={{fill: 'black'}}/>
+                                <SearchIcon sx={{fill: 'rgb(148, 109, 70)'}}/>
                             </IconButton>
                                 <StyledInputBase
                                     placeholder="Поиск…"
@@ -246,7 +267,7 @@ function Layout({title, description, children}) {
                             </Search>
                         </form>
                         <Link href="/cart">
-                            <IconButton sx={{color: 'black'}}>
+                            <IconButton sx={{color: 'rgb(148, 109, 70)'}}>
                                 {
                                     cart.cartItems.length > 0 
                                     ?   <Badge color="secondary" badgeContent={cart.cartItems.length}>

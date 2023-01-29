@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import { Box, Button, Typography, Tabs, Tab } from "@mui/material";
+import { Box, Button, Typography, Tabs, Tab, Grid } from "@mui/material";
 import db from "../utils/db";
 import Banner from "../models/Banner";
 import Product from "../models/Product";
@@ -227,6 +227,17 @@ export default function Home(props) {
 						</TabPanel>
 					}
 				</Box>
+				<Grid container spacing={4} sx={{padding: '130px 0'}}>
+					<Grid item xs={6} >
+						<Typography variant="h3" sx={{textAlign: 'center', fontWeight: '700', marginBottom: '30px'}}>О нас</Typography>
+						<Typography>
+							Пять столетий спустя Lorem Ipsum испытал всплеск популярности с выпуском сухого переноса листов Letraset в. Эти листы надписи можно потереть на любом месте и были быстро приняты художники-графики, принтеры, архитекторов и рекламодателей для их профессионального вида и простоты использования. Letraset включены Lorem Ipsum проходы в арсеналом шрифтов, стилей и размеров, затвердевание место Латинского-эск фразу целиком в печатной и графической индустрии. Те, с вниманием к деталям будет даже поймали дань классического текста в эпизоде Mad Men (S6E1 вокруг 1:18:55 для тех, кто не сделал).
+						</Typography>
+					</Grid>
+					<Grid item xs={6}>
+						<Image src='/images/noimage.svg' height={600} width={825} alt={'Особый случай'}/>
+					</Grid>
+				</Grid>
 			</div>
 		</Layout>
 	)

@@ -108,102 +108,104 @@ export default function Search(props) {
 
     return (
         <Layout title="Search">
-            <Grid container spacing={1}>
-                <Grid item md={3}>
-                    <List>
-                        <ListItem>
-                            <Box sx={{width: '100%'}}>
-                                <Typography>Категории</Typography>
-                                <Select fullWidth value={category} onChange={categoryHandler}>
-                                    <MenuItem value="all">Все</MenuItem>
-                                    {categories &&
-                                        categories.map((category) => (
-                                            <MenuItem key={category} value={category}>
-                                                {category}
-                                            </MenuItem>
-                                        )
-                                    )}
-                                </Select>
-                            </Box>
-                        </ListItem>
-                        <ListItem>
-                            <Box sx={{width: '100%'}}>
-                                <Typography>Брэнд</Typography>
-                                <Select value={brand} onChange={brandHandler} fullWidth>
-                                    <MenuItem value="all">Все</MenuItem>
-                                    {brands &&
-                                        brands.map((brand) => (
-                                            <MenuItem key={brand} value={brand}>
-                                                {brand}
-                                            </MenuItem>
-                                        )
-                                    )}
-                                </Select>
-                            </Box>
-                        </ListItem>
-                        <ListItem>
-                            <Box sx={{width: '100%'}}>
-                                <Typography>Цена</Typography>
-                                <Select value={price} onChange={priceHandler} fullWidth>
-                                    <MenuItem value="all">Все</MenuItem>
-                                    {prices.map((price) => (
-                                            <MenuItem key={price.value} value={price.value}>
-                                                {price.name}
-                                            </MenuItem>
-                                        )
-                                    )}
-                                </Select>
-                            </Box>
-                        </ListItem>
-                    </List>
-                </Grid>
-                <Grid item md={9}>
-                    <Grid container justifyContent="space-between" alignItems="center">
-                        <Grid item> 
-                            <Typography> Найдено товаров {' '} {products.length === 0 ? 'No' : countProducts}</Typography>
-                            <Typography>
-                                {query !== 'all' && query !== '' && ' ' + query}
-                                {category !== 'all' && ' : ' + category}
-                                {brand !== 'all' && ' : ' + brand}
-                                {price !== 'all' && ' : Цена ' + price}
-                                {rating !== 'all' && ' : Рейтинг ' + rating + ' & up'}
+            <div class="center">
+                <Grid container spacing={1}>
+                    <Grid item md={3}>
+                        <List>
+                            <ListItem>
+                                <Box sx={{width: '100%'}}>
+                                    <Typography>Категории</Typography>
+                                    <Select fullWidth value={category} onChange={categoryHandler}>
+                                        <MenuItem value="all">Все</MenuItem>
+                                        {categories &&
+                                            categories.map((category) => (
+                                                <MenuItem key={category} value={category}>
+                                                    {category}
+                                                </MenuItem>
+                                            )
+                                        )}
+                                    </Select>
+                                </Box>
+                            </ListItem>
+                            <ListItem>
+                                <Box sx={{width: '100%'}}>
+                                    <Typography>Брэнд</Typography>
+                                    <Select value={brand} onChange={brandHandler} fullWidth>
+                                        <MenuItem value="all">Все</MenuItem>
+                                        {brands &&
+                                            brands.map((brand) => (
+                                                <MenuItem key={brand} value={brand}>
+                                                    {brand}
+                                                </MenuItem>
+                                            )
+                                        )}
+                                    </Select>
+                                </Box>
+                            </ListItem>
+                            <ListItem>
+                                <Box sx={{width: '100%'}}>
+                                    <Typography>Цена</Typography>
+                                    <Select value={price} onChange={priceHandler} fullWidth>
+                                        <MenuItem value="all">Все</MenuItem>
+                                        {prices.map((price) => (
+                                                <MenuItem key={price.value} value={price.value}>
+                                                    {price.name}
+                                                </MenuItem>
+                                            )
+                                        )}
+                                    </Select>
+                                </Box>
+                            </ListItem>
+                        </List>
+                    </Grid>
+                    <Grid item md={9}>
+                        <Grid container justifyContent="space-between" alignItems="center">
+                            <Grid item> 
+                                <Typography> Найдено товаров {' '} {products.length === 0 ? 'No' : countProducts}</Typography>
+                                <Typography>
+                                    {query !== 'all' && query !== '' && ' ' + query}
+                                    {category !== 'all' && ' : ' + category}
+                                    {brand !== 'all' && ' : ' + brand}
+                                    {price !== 'all' && ' : Цена ' + price}
+                                    {rating !== 'all' && ' : Рейтинг ' + rating + ' & up'}
 
-                                {(query !== 'all' && query !== '') ||
-                                    category !== 'all' ||
-                                    brand !== 'all' ||
-                                    rating !== 'all' ||
-                                    price !== 'all' ? (
-                                    <Button onClick={() => router.push('/search')}>
-                                        <CancelIcon />
-                                    </Button>
-                                ) : null}
-                            </Typography>
-                        </Grid>
-                        <Grid item sx={{display: 'flex', alignItems: 'center'}}>
-                            <Typography sx={{marginRight: '20px'}}>Сортировать</Typography>
-                            <FormControl variant="standard">
-                                <Select value={sort} onChange={sortHandler}>
-                                    <MenuItem value="featured">Рекомендуемые</MenuItem>
-                                    <MenuItem value="lowest">Цена: по возрастанию</MenuItem>
-                                    <MenuItem value="highest">Цена: по убыванию</MenuItem>
-                                    <MenuItem value="toprated">Количество отзывов</MenuItem>
-                                    <MenuItem value="newest">Новые поступления</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={3} sx={{marginTop: '10px'}}>
-                        {products.map((product) => (
-                            <Grid item md={4} key={product.name}>
-                                <ProductItem
-                                    product={product}
-                                    addToCartHandler={addToCartHandler}
-                                />
+                                    {(query !== 'all' && query !== '') ||
+                                        category !== 'all' ||
+                                        brand !== 'all' ||
+                                        rating !== 'all' ||
+                                        price !== 'all' ? (
+                                        <Button onClick={() => router.push('/search')}>
+                                            <CancelIcon />
+                                        </Button>
+                                    ) : null}
+                                </Typography>
                             </Grid>
-                        ))}
+                            <Grid item sx={{display: 'flex', alignItems: 'center'}}>
+                                <Typography sx={{marginRight: '20px'}}>Сортировать</Typography>
+                                <FormControl variant="standard">
+                                    <Select value={sort} onChange={sortHandler}>
+                                        <MenuItem value="featured">Рекомендуемые</MenuItem>
+                                        <MenuItem value="lowest">Цена: по возрастанию</MenuItem>
+                                        <MenuItem value="highest">Цена: по убыванию</MenuItem>
+                                        <MenuItem value="toprated">Количество отзывов</MenuItem>
+                                        <MenuItem value="newest">Новые поступления</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={3} sx={{marginTop: '10px'}}>
+                            {products.map((product) => (
+                                <Grid item md={4} key={product.name}>
+                                    <ProductItem
+                                        product={product}
+                                        addToCartHandler={addToCartHandler}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+            </div>
         </Layout>
     );
 }
