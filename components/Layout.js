@@ -100,12 +100,20 @@ function stringAvatar(name) {
     };
 }
 
+const safeDocument = typeof document !== 'undefined' ? document : {};
+
 function Layout({title, description, children}) {
     const router = useRouter();
     const { state, dispatch } = useContext(Store);
     const { cart, userInfo } = state;
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorElSection, setAnchorElSection] = useState(null);
+    
+    const html = safeDocument.documentElement;
+    const { body } = safeDocument;
+
+    const scrollBarWidth = window.innerWidth - html.clientWidth;
+    const bodyPaddingRight = parseInt(window.getComputedStyle(body).getPropertyValue("padding-right")) || 0;
 
     const [categories, setCategories] = useState([]);
     const { enqueueSnackbar } = useSnackbar();
@@ -134,14 +142,20 @@ function Layout({title, description, children}) {
 
     const handleClickSubsection = (event) => {
         setAnchorElSection(event.currentTarget);
+        html.style.overflow = 'hidden'
+        body.style.paddingRight = `${bodyPaddingRight + scrollBarWidth}px`
     };
     
-      const handleCloseSubsection = () => {
+    const handleCloseSubsection = () => {
         setAnchorElSection(null);
+        html.style.overflow = ''
+        body.style.paddingRight = `0px`
     };
 
     const loginClickHandler = (e) => {
         setAnchorEl(e.currentTarget);
+        html.style.overflow = 'hidden'
+        body.style.paddingRight = `${bodyPaddingRight + scrollBarWidth}px`
     };
 
     const menuCloseHandler = (e, redirect) => {
@@ -153,6 +167,8 @@ function Layout({title, description, children}) {
 
     const mainMenuCloseHandler = () => {
         setAnchorEl(null);
+        html.style.overflow = ''
+        body.style.paddingRight = `0px`
     };
     
     const logoutClickHandler = () => {
