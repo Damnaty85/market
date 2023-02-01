@@ -35,7 +35,7 @@ export default function ProductItem({ product, addToCartHandler }) {
                     <CardContent>
                         <Typography variant="h5" sx={{fontSize: '18px'}}>{product.name}</Typography>
                         <Typography sx={{fontSize: '14px', opacity: '0.7'}}>{product.country}, {product.brand}</Typography>
-                        <Typography sx={{fontSize: '14px', opacity: '0.7'}}>{product.category} {product.shugar}, {product.volume}л.</Typography>
+                        <Typography sx={{fontSize: '14px', opacity: '0.7'}}>{product.category} {product.shugar}, {product.weight ? product.weight : product.volume}{product.weight_unit ? product.weight_unit : 'л.'}</Typography>
                     </CardContent>
                 </CardActionArea>
             </Link>

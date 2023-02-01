@@ -1,17 +1,31 @@
 import Layout from "../components/Layout";
 import db from '../utils/db';
 import Gastronomy from "../models/Gastronomy";
-// import axios from 'axios';
-// import { useContext } from 'react';
-// import { Store } from '../utils/Store';
-// import ProductItem from "../components/ProductItem";
+import axios from 'axios';
+import { useContext } from 'react';
+import { Store } from '../utils/Store';
+import ProductItem from "../components/ProductItem";
 import { Grid, Typography } from "@mui/material";
-import GroceryProduct from "../components/GastronomyProduct";
-// import { useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 
 export default function ServicesScreen(props) {
     const { gastronomy } = props;
-
+	const { state, dispatch } = useContext(Store);
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+	
+	const addToCartHandler = async (product) => {
+        closeSnackbar();
+		const existItem = state.cart.cartItems.find((x) => x._id === product._id);
+		const quantity = existItem ? existItem.quantity + 1 : 1;
+		const { data } = await axios.get(`/api/products/${product._id}`);
+		
+		if (data.countInStock < quantity) {
+			enqueueSnackbar('Извините, товар закончился', { variant: 'error' });
+			return;
+		}
+			dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+			enqueueSnackbar('Товар успешно добален в корзину', { variant: 'success' });
+	};
     return (
         <Layout title='Гастрономия'> 
             <div className="center">
@@ -19,7 +33,7 @@ export default function ServicesScreen(props) {
                 <Grid container spacing={3} sx={{marginTop: '20px'}}>
                     {gastronomy.map((product) => (
                         <Grid item md={3} key={product._id}>
-                            <GroceryProduct product={product}/>
+                            <ProductItem product={product} addToCartHandler={addToCartHandler}/>
                         </Grid>
                     ))}
                 </Grid>

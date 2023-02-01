@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }) {
 	// 	};
 	// }, []);
 
-    return <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+    return <SnackbarProvider anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
 				<StoreProvider>
 					<Component {...pageProps}/>
 				</StoreProvider>

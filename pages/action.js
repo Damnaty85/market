@@ -8,13 +8,14 @@ import ProductItem from "../components/ProductItem";
 import { Grid, Typography } from "@mui/material";
 import { useSnackbar } from 'notistack';
 import Gastronomy from "../models/Gastronomy";
-import GroceryProduct from "../components/GastronomyProduct";
+// import GroceryProduct from "../components/GastronomyProduct";
 
 export default function ProductsScreen(props) {
 	const { state, dispatch } = useContext(Store);
 	const { products, gastronomy } = props;
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-	
+	const elements = [...products, ...gastronomy];
+
 	const addToCartHandler = async (product) => {
         closeSnackbar();
 		const existItem = state.cart.cartItems.find((x) => x._id === product._id);
@@ -33,16 +34,16 @@ export default function ProductsScreen(props) {
             <div className="center">
                 <Typography variant="h4">Акции</Typography>
                 <Grid container spacing={3} sx={{marginTop: '20px'}}>
-                    {products.map((product) => (
+                    {elements.map((product) => (
                         <Grid item md={3} key={product._id}>
                             <ProductItem product={product} addToCartHandler={addToCartHandler}/>
                         </Grid>
                     ))}
-					{gastronomy.map((product) => (
+					{/* {gastronomy.map((product) => (
                         <Grid item md={3} key={product._id}>
                             <GroceryProduct product={product}/>
                         </Grid>
-                    ))}
+                    ))} */}
                 </Grid>
             </div>
         </Layout>

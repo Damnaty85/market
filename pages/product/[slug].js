@@ -7,6 +7,8 @@ import db from '../../utils/db';
 import axios from 'axios';
 import { Store } from '../../utils/Store';
 import { useRouter } from 'next/router';
+import Gastronomy from '../../models/Gastronomy';
+// import Gastronomy from '../../models/Gastronomy';
 
 export default function ProductScreen(props) {
     const { product } = props;
@@ -49,6 +51,13 @@ export default function ProductScreen(props) {
                             {product.type_product && <ListItem><Typography>Тип: {product.type_product}</Typography></ListItem>}
                             {product.country && <ListItem><Typography>Страна: {product.country}</Typography></ListItem>}
                             {product.shugar && <ListItem><Typography>Сахар: {product.shugar}</Typography></ListItem>}
+                            {product.composition && <ListItem><Typography>Состав: {product.composition}</Typography></ListItem>}
+                            {product.product_date && <ListItem><Typography>Дата прозводства: {product.product_date}</Typography></ListItem>}
+                            {product.weight && <ListItem><Typography>Вес: {product.weight}{product.weight_unit}</Typography></ListItem>}
+                            {product.appearance && <ListItem><Typography>Внешний вид: {product.appearance}</Typography></ListItem>}
+                            {product.color && <ListItem><Typography>Цвет: {product.color}</Typography></ListItem>}
+                            {product.shelf_life && <ListItem><Typography>Срок хранения: {product.shelf_life}</Typography></ListItem>}
+                            {product.storage_rules && <ListItem><Typography>Правила хранения: {product.storage_rules}</Typography></ListItem>}
                             <ListItem>
                                 <Typography>Описание: {product.description}</Typography>
                             </ListItem>
@@ -124,7 +133,7 @@ export async function getServerSideProps(context) {
     const { params } = context;
     const { slug } = params;
     await db.connect();
-    const product = await Product.findOne({ slug }).lean();
+    const product = await Product.findOne({ slug }).lean() || await Gastronomy.findOne({ slug }).lean();
     await db.disconnect();
     return {
         props: {

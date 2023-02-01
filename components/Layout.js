@@ -163,6 +163,8 @@ function Layout({title, description, children}) {
         if (redirect) {
             router.push(redirect)
         }
+        html.style.overflow = ''
+        body.style.paddingRight = `0px`
     };
 
     const mainMenuCloseHandler = () => {
@@ -176,6 +178,8 @@ function Layout({title, description, children}) {
         dispatch({ type: 'USER_LOGOUT' });
         Cookies.remove('userInfo');
         Cookies.remove('cartItems');
+        html.style.overflow = ''
+        body.style.paddingRight = `0px`
         router.push('/');
     };
 
